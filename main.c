@@ -869,6 +869,12 @@ main(int argc, char *argv[])
 					clientp, nocgi, istls);
 
 			if (!istls) {
+				/*
+				 * On close only wait for at maximum 60
+				 * seconds for all data to be transmitted
+				 * before forcefully closing the
+				 * connection.
+				 */
 				lingerie.l_onoff = 1;
 				lingerie.l_linger = 60;
 				setsockopt(sock, SOL_SOCKET, SO_LINGER,
