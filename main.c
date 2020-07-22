@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <netinet/tcp.h>
 #include <signal.h>
 #include <string.h>
 #include <strings.h>
@@ -416,6 +417,7 @@ main(int argc, char *argv[])
 {
 	struct addrinfo hints;
 	struct sockaddr_storage clt;
+	struct linger lingerie;
 	socklen_t cltlen;
 	int sock, dofork = 1, inetf = AF_UNSPEC, usechroot = 0,
 	    nocgi = 0, errno_save, nbindips = 0, i, j,
@@ -867,9 +869,22 @@ main(int argc, char *argv[])
 					clientp, nocgi, istls);
 
 			if (!istls) {
+				lingerie.l_onoff = 1;
+				lingerie.l_linger = 60;
+				setsockopt(sock, SOL_SOCKET, SO_LINGER,
+						&lingerie, sizeof(lingerie));
+				/*
+				 * Force explict flush of buffers using
+				 * TCP_NODELAY.
+				 */
+				j = 1;
+				setsockopt(sock, IPPROTO_TCP, TCP_NODELAY,
+						&j, sizeof(int));
 				waitforpendingbytes(sock);
+				j = 0;
+				setsockopt(sock, IPPROTO_TCP, TCP_NODELAY,
+						&j, sizeof(int));
 				shutdown(sock, SHUT_RDWR);
-				close(sock);
 			}
 			close(sock);
 

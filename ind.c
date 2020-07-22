@@ -79,7 +79,8 @@ pendingbytes(int sock)
 void
 waitforpendingbytes(int sock)
 {
-	int npending = 0, opending = 0, trytime = 10;
+	int npending = 0, opending = 0;
+	useconds_t trytime = 10;
 
 	/*
 	 * Wait until there is nothing pending or the connection stalled
