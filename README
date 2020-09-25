@@ -6,6 +6,7 @@ Features:
 	* CGI support (.cgi files are executed)
 	* search support in CGI files
 	* logging (-l option) and loglevels (-v option)
+	* TLS, if compiled with libtls (provided by LibreSSL, edit Makefile)
 
 Usage:
 
