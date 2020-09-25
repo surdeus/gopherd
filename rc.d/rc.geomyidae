@@ -6,14 +6,14 @@ PID=($(pidof -o %PPID /usr/sbin/geomyidae))
 case "$1" in
     start)
         echo "Starting geomyidae"
-        /usr/bin/geomyidae $GEOMYIDAE_ARGS 2>&1
+        /usr/sbin/geomyidae $GEOMYIDAE_ARGS 2>&1
         if [ $? -gt 0 ]; then
             echo "Startup failed"
         fi
         ;;
     stop)
         echo "Stopping all geomyidae processes"
-        [ -n "$PID" ] && kill ${PID[@]} >/dev/null
+        [ -n "$PID" ] && kill $PID >/dev/null
         if [ $? -gt 0 ] && [ -n "$PID" ]; then
             echo "Stopping failed for at least one process"
         fi
