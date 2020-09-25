@@ -11,6 +11,7 @@ MANDIR = ${PREFIX}/share/man/man8
 
 # Comment to disable TLS support
 TLS_CFLAGS = -DENABLE_TLS
+# libtls is provided using for example LibreSSL.
 TLS_LDFLAGS = -ltls 
 
 GEOM_CFLAGS = -D_DEFAULT_SOURCE -I. -I/usr/include ${TLS_CFLAGS} ${CFLAGS}
