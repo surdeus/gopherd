@@ -4,11 +4,11 @@
 . /etc/rc.d/functions
 . /etc/conf.d/geomyidae
 
-PID=$(pidof -o %PPID /usr/bin/geomyidae)
+PID=$(pidof -o %PPID /usr/sbin/geomyidae)
 case "$1" in
 	start)
 		stat_busy "Starting geomyidae"
-		[ -z "$PID" ] && /usr/bin/geomyidae $GEOMYIDAE_ARGS 2>&1
+		[ -z "$PID" ] && /usr/sbin/geomyidae $GEOMYIDAE_ARGS 2>&1
 		if [ $? -gt 0 ]; then
 			stat_fail
 		else
