@@ -1,17 +1,14 @@
-FROM debian AS build
+FROM alpine AS build
 
 WORKDIR /usr/local/src/geomyidae
 
-RUN apt-get update && apt-get install -y gcc make git
+RUN apk update && apk add build-base libressl-dev git
 RUN git clone git://bitreich.org/geomyidae /usr/local/src/geomyidae
-# Debian sucks at LibreSSL. Maybe find some other base image?
-RUN make TLS_CFLAGS= TLS_LDFLAGS=
+RUN make
 
-FROM debian
-
-ENV HOST 0.0.0.0
+FROM alpine
 
 COPY --from=build /usr/local/src/geomyidae/geomyidae /usr/local/sbin/geomyidae
 
 EXPOSE 70
-CMD geomyidae -d -h $HOST
+CMD geomyidae -d -h 0.0.0.0
