@@ -1,0 +1,18 @@
+CC = tcc
+LD = $CC
+
+NAME = gophd
+
+LOCAL = $HOME/local
+BIN = $LOCAL/bin
+SHR = $LOCAL/shr
+MAN = $SHR/man
+
+USR = /usr
+USRINC = -I$USR/include
+DOTINC = -I.
+INC = $USRINC $DOTINC
+
+CPPFLAGS = $INC -D_DEFAULT_SOURCE
+CFLAGS = $CPPFLAGS
+LDFLAGS = 
